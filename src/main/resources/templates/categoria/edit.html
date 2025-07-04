@@ -1,0 +1,23 @@
+<!-- Modal Editar -->
+<div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="editarLabel" aria-hidden="true"
+     th:fragment="modaleditar">
+  <div class="modal-dialog">
+    <form class="modal-content" id="formEditar">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarLabel">Editar Categoría</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="idEditar" name="id">
+        <div class="mb-3">
+          <label for="nombreEditar" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="nombreEditar" name="nombre" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+      </div>
+    </form>
+  </div>
+</div>

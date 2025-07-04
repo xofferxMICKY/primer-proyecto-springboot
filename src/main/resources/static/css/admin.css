@@ -1,0 +1,35 @@
+/* Sidebar fijo estilo collapsible */
+#wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+#sidebar-wrapper {
+    min-width: 250px;
+    max-width: 250px;
+    height: 100vh;
+    position: fixed;
+}
+
+#page-content-wrapper {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: -250px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+    margin-left: 0;
+}
+
+.navbar .nav-link {
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+}
+
+.navbar .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+

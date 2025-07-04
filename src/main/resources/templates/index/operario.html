@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo de Productos</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/v/dt/dt-2.3.2/datatables.min.css" rel="stylesheet"/>
+  <link href="/css/operario.css" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- ✅ input oculto para obtener el correo del usuario logueado -->
+<input id="inputOperario" hidden="hidden" type="text" th:value="${#authentication.name}">
+
+<!-- 🔝 Barra de navegación -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Operario - Tienda <span id="nombreoperario"></span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/logout}">Cerrar sesión</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- 🛒 Catálogo de productos -->
+<div class="container mt-4">
+  <h2 class="mb-3">Catálogo de Productos</h2>
+
+  <!-- Filtro -->
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label for="categoriaFiltro" class="form-label">Filtrar por categoría:</label>
+      <select id="categoriaFiltro" class="form-select">
+        <option value="">Todas las categorías</option>
+        <!-- Opciones cargadas dinámicamente -->
+      </select>
+    </div>
+  </div>
+
+  <!-- Tabla de productos -->
+  <div class="table-responsive">
+    <table id="tablaProductos" class="table table-bordered table-hover">
+      <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>Categoría</th>
+        <th>Acción</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Cargado por JS -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ✅ Modal de Compra -->
+<div class="modal fade" id="modalCompra" tabindex="-1" aria-labelledby="modalCompraLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" id="formCompra">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCompraLabel">Confirmar Compra</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="compra_idProducto">
+        <div class="mb-3">
+          <label for="compra_nombreProducto" class="form-label">Producto</label>
+          <input type="text" class="form-control" id="compra_nombreProducto" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="compra_cantidad" class="form-label">Cantidad</label>
+          <input type="number" class="form-control" id="compra_cantidad" min="1" value="1" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Confirmar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 🔘 Botón flotante para ver carrito -->
+<button class="btn btn-warning position-fixed bottom-0 end-0 m-4" onclick="mostrarCarrito()">
+  🛒 Ver Carrito (<span id="carritoCount">0</span>)
+</button>
+
+<!-- 🧾 Modal resumen del carrito -->
+<div class="modal fade" id="modalCarrito" tabindex="-1" aria-labelledby="modalCarritoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <form class="modal-content" id="formCarrito">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCarritoLabel">Carrito de Compras</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Precio</th>
+              <th>Cantidad</th>
+              <th>Subtotal</th>
+              <th>Acción</th>
+            </tr>
+            </thead>
+            <tbody id="tablaCarritoBody">
+            <!-- cargado dinámicamente -->
+            </tbody>
+            <tfoot>
+            <tr>
+              <td colspan="4" class="text-end fw-bold">Total:</td>
+              <td class="fw-bold" id="totalCarrito">S/ 0.00</td>
+            </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Realizar Compra</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/v/dt/dt-2.3.2/datatables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/operario.js"></script>
+</body>
+</html>
