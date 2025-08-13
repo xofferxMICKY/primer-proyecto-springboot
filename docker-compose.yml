@@ -1,0 +1,39 @@
+services:
+  app:
+    container_name: contenedor-app
+    image: imagen-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    environment:
+      DB_URL: jdbc:mysql://bd:3306/bd_proyecto_venta
+      DB_USER: root
+      DB_PASS: 12345678
+      DB_DRIVER: com.mysql.cj.jdbc.Driver
+      DB_DIALECT: org.hibernate.dialect.MySQLDialect
+    networks:
+      - net1
+    depends_on:
+      - bd
+    restart: always
+
+
+  bd:
+    container_name: contenedor-bd
+    image: mysql
+    environment:
+      MYSQL_DATABASE: bd_proyecto_venta
+      MYSQL_ROOT_PASSWORD: 12345678
+    ports:
+      - 3307:3306
+    networks:
+      - net1
+    volumes:
+      - .mysql_data:/var/lib/mysql
+      - ./data:/docker-entrypoint-initdb.d
+    restart: always
+
+networks:
+  net1:
